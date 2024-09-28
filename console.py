@@ -12,7 +12,6 @@ from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 
-
 class HBNBCommand(cmd.Cmd):
     """Defines the HolbertonBnB command interpreter."""
 
@@ -267,7 +266,5 @@ class HBNBCommand(cmd.Cmd):
         else:
             cmd.Cmd.default(self, line)
 
-
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
-    
