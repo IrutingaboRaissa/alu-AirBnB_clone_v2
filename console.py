@@ -15,6 +15,7 @@ from models.review import Review
 class HBNBCommand(cmd.Cmd):
     """Defines the HolbertonBnB command interpreter."""
 
+
     prompt = "(hbnb) "
     __classes = {
         "BaseModel",
@@ -26,18 +27,22 @@ class HBNBCommand(cmd.Cmd):
         "Review"
     }
 
+
     def emptyline(self):
         """Ignore empty spaces."""
         pass
+
 
     def do_quit(self, line):
         """Quit command to exit the program."""
         return True
 
+
     def do_EOF(self, line):
         """EOF signal to exit the program."""
         print("")
         return True
+
 
     def do_create(self, line):
         """Usage: create <class> <key 1>=<value 2> <key 2>=<value 2> ...
@@ -73,6 +78,7 @@ class HBNBCommand(cmd.Cmd):
         except NameError:
             print("** class doesn't exist **")
 
+
     def do_show(self, line):
         """Prints the string representation of an instance
         Exceptions:
@@ -103,6 +109,7 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
         except KeyError:
             print("** no instance found **")
+
 
     def do_destroy(self, line):
         """Deletes an instance based on the class name and id
@@ -136,6 +143,7 @@ class HBNBCommand(cmd.Cmd):
         except KeyError:
             print("** no instance found **")
 
+
     def do_all(self, line):
         """Usage: all or all <class> or <class>.all()
         Display string representations of all instances of a given class.
@@ -154,6 +162,7 @@ class HBNBCommand(cmd.Cmd):
 
         except NameError:
             print("** class doesn't exist **")
+
 
     def do_update(self, line):
         """Updates an instanceby adding or updating attribute
@@ -200,6 +209,7 @@ class HBNBCommand(cmd.Cmd):
         except ValueError:
             print("** value missing **")
 
+
     def count(self, line):
         """count the number of instances of a class
         """
@@ -216,6 +226,7 @@ class HBNBCommand(cmd.Cmd):
             print(counter)
         except NameError:
             print("** class doesn't exist **")
+
 
     def strip_clean(self, args):
         """strips the argument and return a string of command
@@ -239,6 +250,7 @@ class HBNBCommand(cmd.Cmd):
         new_str = args[1][args[1].find('(') + 1:args[1].find(')')]
         new_list.append(" ".join(new_str.split(", ")))
         return " ".join(i for i in new_list)
+
 
     def default(self, line):
         """retrieve all instances of a class and
@@ -268,3 +280,4 @@ class HBNBCommand(cmd.Cmd):
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
+
