@@ -39,7 +39,7 @@ class DBStorage:
         """
         dic = {}
         if cls:
-            if isinstance(cls, str):
+            if type(cls) is str:
                 cls = eval(cls)
             query = self.__session.query(cls)
             for elem in query:
@@ -79,6 +79,6 @@ class DBStorage:
         self.__session = Session()
 
     def close(self):
-        """ calls remove()
+        """ calls close() on the class Session
         """
         self.__session.close()
