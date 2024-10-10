@@ -41,7 +41,7 @@ class DBStorage:
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
-  """query on the current database session and count objects of each class"""
+         """query on the current database session and count objects of each class"""
   new_dict = {}
   for clss in classes:
     if cls is None or cls is classes[clss] or cls is clss:
