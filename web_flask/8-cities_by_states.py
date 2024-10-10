@@ -10,10 +10,10 @@ Teardown:
 """
 
 from flask import Flask, render_template
-from models.state import State  # Import the State class for fetching state data
-from models import storage  # Import storage to handle data persistence
+from models.state import State
+from models import storage
 
-app = Flask(__name__)  # Initialize a Flask application
+app = Flask(__name__)  
 
 
 @app.teardown_appcontext
@@ -43,6 +43,4 @@ def states_list():
 
 
 if __name__ == '__main__':
-    # If this script is executed directly, the Flask app will start
-    # in debug mode, accessible on all network interfaces (0.0.0.0) at port 5000.
     app.run(debug=True, host='0.0.0.0', port=5000)
