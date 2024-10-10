@@ -146,21 +146,21 @@ class HBNBCommand(cmd.Cmd):
             print([o[k].__str__() for k in o])
             return
     try:
-        args = line.split(" ")
-        if args[0] not in self.__classes:
-            raise NameError()
+            args = line.split(" ")
+            if args[0] not in self.__classes:
+                raise NameError()
 
-o = storage.all(eval(args[0]))
-print([o[k].__str__() for k in o])
+            o = storage.all(eval(args[0]))
+            print([o[k].__str__() for k in o])
 
-except NameError:
-    print("** class doesn't exist **")
+    except NameError:
+            print("** class doesn't exist **")
 
 def do_update(self, line):
-    """Updates an instanceby adding or updating attribute
+    """Updates an instance by adding or updating attribute
     Exceptions:
         SyntaxError: when there is no args given
-        NameError: when there is no object taht has the name
+        NameError: when there is no object that has the name
         IndexError: when there is no id given
         KeyError: when there is no valid id given
         AttributeError: when there is no attribute given
@@ -228,8 +228,8 @@ def strip_clean(self, args):
     new_list = []
     new_list.append(args[0])
     try:
-         my_dict = eval(
-                 args[1][args[1].find('{'):args[1].find('}')+1])
+        my_dict = eval(
+                args[1][args[1].find('{'):args[1].find('}')+1])
     except Exception:
         my_dict = None
     if isinstance(my_dict, dict):
@@ -247,15 +247,15 @@ def default(self, line):
     """
     my_list = line.split('.')
     my_list = line.split('.')
-        if my_list[1] == "all()":
+    if my_list[1] == "all()":
             self.do_all(my_list[0])
-        elif my_list[1] == "count()":
+    elif my_list[1] == "count()":
             self.count(my_list[0])
-        elif my_list[1][:4] == "show":
+    elif my_list[1][:4] == "show":
             self.do_show(self.strip_clean(my_list))
-        elif my_list[1][:7] == "destroy":
+    elif my_list[1][:7] == "destroy":
             self.do_destroy(self.strip_clean(my_list))
-        elif my_list[1][:6] == "update":
+    elif my_list[1][:6] == "update":
             args = self.strip_clean(my_list)
             if isinstance(args, list):
                 obj = storage.all()
@@ -264,7 +264,7 @@ def default(self, line):
                     self.do_update(key + ' "{}" "{}"'.format(k, v))
             else:
                 self.do_update(args)
-        else:
+    else:
             cmd.Cmd.default(self, line)
 
 
