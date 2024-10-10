@@ -46,10 +46,10 @@ class DBStorage:
         for clss in classes:
             if cls is None or cls is classes[clss] or cls is clss:
                 objs = self.__session.query(classes[clss]).all()
-                for obj in objs:
-                    key = obj.__class__.__name__ + '.' + obj.id
-                    new_dict[key] = obj
-        return (new_dict)
+                
+
+                    new_dict[clss] = len(objs)
+        return new_dict
 
     def new(self, obj):
         """add the object to the current database session"""
@@ -74,3 +74,4 @@ class DBStorage:
     def close(self):
         """call remove() method on the private session attribute"""
         self.__session.remove()
+
