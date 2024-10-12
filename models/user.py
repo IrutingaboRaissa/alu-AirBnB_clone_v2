@@ -1,37 +1,29 @@
 #!/usr/bin/python3
-""" State Module for HBNB project """
-import os
-
+"""User class"""
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String
+from sqlalchemy import String, Column
 from sqlalchemy.orm import relationship
-from models.city import City
-import models
 
 
-class State(BaseModel, Base):
-    """ State class """
-    __tablename__ = 'states'
+class User(BaseModel, Base):
+    """This is the class for user
+    Attributes:
+        email: email address
+        password: password for you login
+        first_name: first name
+        last_name: last name
+    """
+    __tablename__ = 'users'
 
-    name = Column(String(128), nullable=False)
-
-    if os.getenv("HBNB_TYPE_STORAGE") == "db":
-        cities = relationship('City', backref='state',
-                              cascade='all, delete-orphan')
-
-    else:
-        # if os.getenv("HBNB_TYPE_STORAGE") != "db":
-        # @property
-        # def cities(self):
-        #     """ Returns the list of City instances with state_id
-        #     equals to the current State.id. """
-        #     all_cities = list(models.storage.all(City).values())
-        #     return list(filter(lambda city: (city.id == self.id),
-        #     all_cities))
-        # no time to fix
-        @property
-        def cities(self):
-            """ Returns the list of City instances with state_id
-            equals to the current State.id. """
-            return [city for city in models.storage.all(City).values()
-                    if city.state_id == self.id]
+    email = Column(String(128), nullable=False)
+    password = Column(String(128), nullable=False)
+    first_name = Column(String(128), nullable=True)
+    last_name = Column(String(128), nullable=True)
+    places = relationship(
+        'Place',
+        backref='user',
+        cascade='all, delete-orphan')
+    reviews = relationship(
+        'Review',
+        backref='user',
+        cascade='all, delete-orphan')
