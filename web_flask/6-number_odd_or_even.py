@@ -40,13 +40,18 @@ def num_route(n):
 @app.route('/number_template/<int:n>', strict_slashes=False)
 def num_route_template(n):
     """Comment"""
-    return render_template("5-number.html", number=n)
+    return render_template("5-number.html", num=n)
 
 
-@app.route('/number_odd_or_even/<int:n>', strict_slashes=False)
-def num_route_even_odd(n):
+@app.route('/number_odd_or_even/<int:n>')
+def num_odd_or_even(n):
     """Comment"""
-    return render_template("6-number_odd_or_even.html", num=n)
+    even_or_odd = "even" if n%2 == 0 else "odd"
+    values = {
+        "num": n,
+	"even_or_odd": even_or_odd
+    }
+    return render_template('6-number_odd_or_even.html', values=values)
 
 
 if __name__ == '__main__':
