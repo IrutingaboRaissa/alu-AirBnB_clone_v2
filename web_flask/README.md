@@ -1,15 +1,7 @@
-# Web_flask
+# Web flask project
 
-    this directory holds files for web flask
+## Web flask, integration with the frontend
 
-## Learning Objectives:
-
-1. What is a Web Framework
-2. How to build a web framework with Flask
-3. How to define routes in Flask
-4. What is a route
-5. How to handle variables in a route
-6. What is a template
-7. How to create a HTML response in Flask by using a template
-8. How to create a dynamic template (loops, conditions…)
-9. How to display in HTML data from a MySQL database
+Running the project:
+ * Do the  `pip install` for the imported packages
+ * DO `echo "quit" | HBNB_MYSQL_USER=<> HBNB_MYSQL_PWD=<> HBNB_MYSQL_HOST=<> HBNB_MYSQL_DB=<> HBNB_TYPE_STORAGE=db <file_you_want_to_run>` . Replace `<>` with your original values.

@@ -1,31 +1,131 @@
 #!/usr/bin/python3
-"""Starts a Flask web application"""
+"""
+script starts Flask web app
+listen on 0.0.0.0, port 5000
+"""
+import os
+import sys
+
+# Add the parent directory to sys.path
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.abspath(os.path.join(current_dir, '..'))
+if parent_dir not in sys.path:
+    sys.path.insert(0, parent_dir)
 
 from flask import Flask, render_template
 from models import storage
+from models.state import State
+from models.amenity import Amenity
+from models.city import City
+
 
 app = Flask(__name__)
+app.url_map.strict_slashes = False
 
 
-@app.route('/hbnb_filters', strict_slashes=False)
-def hbnb_filters():
-    """display an hbnb template"""
-    states = sorted(storage.all("State").values(),
-                    key=lambda state: state.name)
-    cities = sorted(storage.all("City").values(),
-                    key = lambda city: city.name)
-    amenities = sorted(storage.all("Amenity").values(),
-                       key = lambda amenity: amenity.name)
-    return render_template('10-hbnb_filters.html',
-                           states=states,
-                           cities=cities,
-                           amenities=amenities)
+@app.route("/")
+def hello_hbnb():
+    """display text"""
+    return "Hello HBNB!"
+
+
+@app.route("/hbnb")
+def hbnb():
+    """display text"""
+    return "HBNB"
+
+
+@app.route("/c/<text>")
+def c_text(text):
+    """display custom text given"""
+    return "C {}".format(text.replace("_", " "))
+
+
+@app.route("/python")
+@app.route("/python/<text>")
+def python_text(text="is cool"):
+    """display custom text given
+    first route statement ensures it works for:
+       curl -Ls 0.0.0.0:5000/python ; echo "" | cat -e
+       curl -Ls 0.0.0.0:5000/python/ ; echo "" | cat -e
+    """
+    return "Python {}".format(text.replace("_", " "))
+
+
+@app.route("/number/<int:n>")
+def text_if_int(n):
+    """display text only if int given"""
+    return "{:d} is a number".format(n)
+
+
+@app.route("/number_template/<int:n>")
+def html_if_int(n):
+    """display html page only if int given
+    place given int into html template
+    """
+    return render_template("5-number.html", n=n)
+
+
+@app.route("/number_odd_or_even/<int:n>")
+def html_odd_or_even(n):
+    """display html page only if int given
+    place given int into html template
+    substitute text to display if int is odd or even
+    """
+    odd_or_even = "even" if (n % 2 == 0) else "odd"
+    return render_template("6-number_odd_or_even.html", n=n, odd_or_even=odd_or_even)
 
 
 @app.teardown_appcontext
-def teardown_db(exception):
-    """remove the current SQLAlchemy session"""
+def tear_down(self):
+    """after each request remove current SQLAlchemy session"""
     storage.close()
 
+
+@app.route("/states")
+@app.route("/states_list")
+def html_fetch_states():
+    """display html page
+    fetch sorted states to insert into html in UL tag
+    """
+    state_objs = [s for s in storage.all("State").values()]
+    return render_template("7-states_list.html", state_objs=state_objs)
+
+
+@app.route("/cities_by_states")
+def html_fetch_cities_by_states():
+    """display html page
+    fetch sorted states to insert into html in UL tag
+    fetch sorted cities in each state into LI tag ->in HTML file
+    """
+    state_objs = [s for s in storage.all("State").values()]
+    return render_template("8-cities_by_states.html", state_objs=state_objs)
+
+
+@app.route("/states/<id>")
+def html_if_stateID(id):
+    """display html page; customize heading with state.name
+    fetch sorted cities for this state ID into LI tag ->in HTML file
+    """
+    state_obj = None
+    for state in storage.all("State").values():
+        if state.id == id:
+            state_obj = state
+    return render_template("9-states.html", state_obj=state_obj)
+
+
+@app.route("/hbnb_filters")
+def html_filters():
+    """display html page with working city/state filters & amenities
+    runs with web static css files
+    """
+    states = sorted(storage.all(State).values(), key=lambda x: x.name)
+    cities = sorted(storage.all(City).values(), key=lambda x: x.name)
+    amenities = sorted(storage.all(Amenity).values(), key=lambda x: x.name)
+    return render_template(
+        "10-hbnb_filters.html", states=states, cities=cities, amenities=amenities
+    )
+
+
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host="0.0.0.0", port=5000)
